@@ -1,5 +1,5 @@
 .idea
 **/.ipynb_checkpoints
 **/internship_data
-**/*model.pt
+**/*.pt
 internship_data.tar.gz

@@ -2,4 +2,5 @@
 **/.ipynb_checkpoints
 **/internship_data
 **/*.pt
+**/__pycache__
 internship_data.tar.gz

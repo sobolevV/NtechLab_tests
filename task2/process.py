@@ -1,13 +1,15 @@
 import argparse
 import os
 import torch
+import json
 import torch.nn.functional as F
 import numpy as np
-import json
 from pathlib import PurePath
 from torchvision import transforms
 from glob import glob
 from PIL import Image
+from simple_model import CNN_Net
+
 parser = argparse.ArgumentParser()
 
 
@@ -39,11 +41,10 @@ def get_model(model_type):
                                      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])}
 
     try:
-        model = torch.load(model_params['path'])
-        model = model.cpu()
-    except FileNotFoundError(f'model ({model_params["path"]}) {model_type} not found'):
+        model = torch.load(model_params['path']) #.cpu()
+    except FileNotFoundError as err:
+        print(err)
         raise FileNotFoundError
-
     return model, model_params
 
 
@@ -51,7 +52,7 @@ def predict_images(paths, model, model_params):
     results = {}
     classes = {0: 'female', 1: 'male'}
     for img_path in paths:
-        img = Image.open(img_path) # .convert("RGB")
+        img = Image.open(img_path)
         img = img.convert("RGB")
         img = model_params['processing'](img)
         img = img.unsqueeze(0)
